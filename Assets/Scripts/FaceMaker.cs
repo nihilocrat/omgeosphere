@@ -21,6 +21,7 @@ public class FaceMaker : MonoBehaviour
 	public float eyebrowTilt = 0.5f;
 	public Vector3 eyeRotation = Vector3.zero;
 	public float eyeNoWhiteChance = 0.2f;
+	public float eyeDerpChance = 0.5f;
 	public int mouthPoints = 9;
 	public float mouthSquigglyness = 0f;
 	public Vector2 mouthSize = Vector2.one;
@@ -86,6 +87,9 @@ public class FaceMaker : MonoBehaviour
 		eyeParent.localPosition += (Vector3.up * (Random.value - 0.5f) * eyeElevation);
 		
 		bool noWhite = (Random.value <= eyeNoWhiteChance);
+		bool derpEyes = (Random.value <= eyeDerpChance);
+
+		Vector3 rotVec = RandomizeVector(eyeRotation);
 
 		foreach(Transform i in eyes)
 		{
@@ -108,11 +112,12 @@ public class FaceMaker : MonoBehaviour
 
 			i.localPosition = pos;
 
-			Vector3 rotVec = eyeRotation;
-			
-			rotVec.x *= (Random.value - 0.5f);
-			rotVec.y *= (Random.value - 0.5f);
-			rotVec.z *= (Random.value - 0.5f);
+			// derp eyes: each eye gets a random rotation rather than the same
+			if(derpEyes)
+			{
+				rotVec = RandomizeVector(eyeRotation);
+			}
+
 			i.Rotate(rotVec, Space.Self);
 
 			if(noWhite)
@@ -168,5 +173,16 @@ public class FaceMaker : MonoBehaviour
 		{
 			mouth.transform.Rotate(0f, 0f, 180f, Space.Self);
 		}
+	}
+	
+	Vector3 RandomizeVector(Vector3 input)
+	{
+		Vector3 rotVec = input;
+		
+		rotVec.x *= (Random.value - 0.5f);
+		rotVec.y *= (Random.value - 0.5f);
+		rotVec.z *= (Random.value - 0.5f);
+		
+		return rotVec;
 	}
 }
