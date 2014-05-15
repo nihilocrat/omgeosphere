@@ -113,7 +113,7 @@ public class FaceMaker : MonoBehaviour
 			rotVec.x *= (Random.value - 0.5f);
 			rotVec.y *= (Random.value - 0.5f);
 			rotVec.z *= (Random.value - 0.5f);
-			i.Rotate(eyeRotation, Space.Self);
+			i.Rotate(rotVec, Space.Self);
 
 			if(noWhite)
 			{
